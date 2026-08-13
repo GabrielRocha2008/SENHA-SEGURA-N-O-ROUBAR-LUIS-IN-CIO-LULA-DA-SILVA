@@ -1,22 +1,31 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto&family=Roboto+Mono&display=swap');
+@import url('https://googleapis.com');
 
 :root{
     --branco: white;
     --cor-de-fundo: #00162E;
-    --fundo-senha: #00244D;
-    --fundo-texto: #001E40;
-    --borda: #d0ff00;
+    /* Cores em RGBA para que a imagem de fundo apareça sutilmente por trás das caixas */
+    --fundo-senha: rgba(0, 36, 77, 0.85); 
+    --fundo-texto: rgba(0, 30, 64, 0.85);
     --roboto: 'Roboto', sans-serif;
     --roboto-mono: 'Roboto Mono', monospace;
 }
 
 *{
     font-weight: 400;
+    box-sizing: border-box; /* Evita que paddings quebrem os limites do layout */
 }
 
 body{
     color: var(--branco);
     background-color: var(--cor-de-fundo);
+    
+    /* Configuração da imagem de fundo da página */
+    background-image: url('https://encrypted-tbn0https://wallpapers.com/images/featured/computador-homem-aranha-ufzi63pp5fn3rhyt.jpg.gstatic.com/images?q=tbn:ANd9GcQg5T1qyxBwM9xG4CAU8FBpCE5EeuXTUWGAaOAQpxSALHyCztmmandFNtW6&s=10'); 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    
     font-family: var(--roboto);
 }
 
@@ -38,11 +47,15 @@ body{
     margin-top: 80px; 
     background: var(--fundo-senha);
     padding: 24px;
-    border-bottom: 6px solid var(--borda);
+    
+    /* Borda RGB apenas na parte inferior */
+    border-bottom: 6px solid;
+    border-image-slice: 1;
+    animation: efeito-rgb 4s linear infinite;
 }
 
 #campo-senha{
-    background-color: var(--fundo-senha);
+    background-color: transparent; /* Transparente para misturar com o fundo do container */
     border: none;
     color: var(--branco);
     font-family: var(--roboto-mono);
@@ -57,13 +70,18 @@ body{
 .conteudo{
     max-width: 1200px;
     margin: 0 auto;
+    padding: 0 20px;
 }
 
 .parametro{
     background-color: var(--fundo-texto);
-    border: 2px solid var(--borda);
     margin-top: 32px;
     padding: 24px;
+    
+    /* Borda RGB completa em volta da caixa */
+    border: 2px solid;
+    border-image-slice: 1;
+    animation: efeito-rgb 4s linear infinite;
 }
 
 .parametro-titulo{
@@ -80,6 +98,7 @@ body{
     flex-direction: column;
     justify-content: center;
 }
+
 .parametro-senha{
     width: 50%;
     margin: 0 auto;
@@ -93,17 +112,27 @@ body{
 .parametro-senha__botao{
     background-color: var(--cor-de-fundo);
     color: var(--branco);
-    border: 2px solid var(--borda);
     padding: 24px;
     font-size: 24px;
     cursor: pointer;
+    
+    /* Borda RGB completa no botão */
+    border: 2px solid;
+    border-image-slice: 1;
+    animation: efeito-rgb 4s linear infinite;
 }
+
 .parametro-senha__texto{
-    border-top: 2px solid var(--borda);
-    border-bottom: 2px solid var(--borda);
+    background-color: transparent;
     padding: 24px;
     margin: 0px;
     font-size: 24px;
+    
+    /* Borda RGB na parte superior e inferior do texto */
+    border-top: 2px solid;
+    border-bottom: 2px solid;
+    border-image-slice: 1;
+    animation: efeito-rgb 4s linear infinite;
 }
 
 label{
@@ -114,7 +143,14 @@ label{
     width: 20px;
     height: 20px;
     cursor: pointer;
+}
 
+/* Animação que faz as cores girarem em formato de gradiente linear */
+@keyframes efeito-rgb {
+    0% { border-image-source: linear-gradient(to right, #ff0000, #00ff00, #0000ff); }
+    33% { border-image-source: linear-gradient(to right, #0000ff, #ff0000, #00ff00); }
+    66% { border-image-source: linear-gradient(to right, #00ff00, #0000ff, #ff0000); }
+    100% { border-image-source: linear-gradient(to right, #ff0000, #00ff00, #0000ff); }
 }
 
 @media screen and (min-width: 768px) {
