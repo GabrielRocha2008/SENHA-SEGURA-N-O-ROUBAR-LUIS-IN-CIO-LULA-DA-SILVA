@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerador de senha</title>
+    <title>Gerador de Senha Criptográfica</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -16,12 +16,12 @@
             <h2 class="titulo-secundario">Gere instantaneamente uma senha aleatória e segura</h2>
         </header>
 
-        <!-- Campo onde a senha gerada será exibida -->
-        <section class="conteudo-senha">
+        <!-- Área de exibição da senha -->
+        <section class="conteudo-senha" aria-live="polite">
             <label for="campo-senha">Senha Gerada</label>
             <div class="input-container">
                 <input type="text" id="campo-senha" readonly placeholder="Clique em Gerar">
-                <button id="btn-copiar" title="Copiar Senha">Copiar</button>
+                <button type="button" id="btn-copiar" title="Copiar Senha">Copiar</button>
             </div>
         </section>
 
@@ -34,9 +34,9 @@
                 <div class="parametro-senha">
                     <h4 class="parametro-senha__titulo">Número de caracteres</h4>
                     <div class="parametro-senha-botoes">
-                        <button type="button" class="parametro-senha__botao" id="btn-menos">-</button>
+                        <button type="button" class="parametro-senha__botao" id="btn-menos" aria-label="Diminuir tamanho">-</button>
                         <span class="parametro-senha__texto" id="contador-caracteres">12</span>
-                        <button type="button" class="parametro-senha__botao" id="btn-mais">+</button>
+                        <button type="button" class="parametro-senha__botao" id="btn-mais" aria-label="Aumentar tamanho">+</button>
                     </div>
                 </div>               
 
@@ -62,14 +62,14 @@
                     </div>
                 </div>
 
-                <!-- Medidor de Força da Senha -->
+                <!-- Medidor de Força Avançado -->
                 <div class="parametro-senha">
                     <h4 class="parametro-senha__titulo">Força da senha</h4>
                     <div class="barra-forca-container">
-                        <div id="barra-forca" class="forca-media"></div>
+                        <div id="barra-forca"></div>
                     </div>
                     <div class="parametro-senhas-textos">
-                        <span id="texto-forca">Média</span>
+                        Status: <strong id="texto-forca">Selecione as opções</strong>
                     </div>
                 </div>
             </div>
