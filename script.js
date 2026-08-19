@@ -23,11 +23,10 @@ document.addEventListener("DOMContentLoaded", () => {
         barraForca.style.height = "100%";
     }
 
-    // NOVA FUNÇÃO: Sorteia aleatoriamente o nível e a cor da barra
+    // Sorteia aleatoriamente o nível e a cor da barra
     function definirForcaAleatoria() {
         if (!barraForca) return;
 
-        // Gera um número aleatório entre 1, 2 ou 3
         const sorteio = Math.floor(Math.random() * 3) + 1;
 
         if (sorteio === 1) {
@@ -160,7 +159,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    if (btnGerar) btnGerar.addEventListener('click', generarSenha);
+    // CORREÇÃO AQUI: Nome da função corrigido para casar exatamente com o clique do botão
+    if (btnGerar) btnGerar.addEventListener('click', gerarSenha);
     if (btnCopiar) btnCopiar.addEventListener('click', copiarParaAreaDeTransferencia);
 
     // Atualiza aleatoriamente se mexer nos checkboxes também
