@@ -217,24 +217,25 @@ button:active {
     accent-color: #00ff88;
 }
 
-/* CONTAINER DA BARRA DE FORÇA CORRIGIDO */
+/* CAIXA CINZA DE FUNDO - RESOLVIDO: ADICIONADA BORDA BRANCA DE PROTEÇÃO */
 .barra-forca-container {
-    background-color: rgba(0, 0, 0, 0.5) !important;
+    background-color: #11253C !important;
     width: 100% !important;
-    height: 14px !important;
-    border-radius: 7px !important;
+    height: 20px !important; /* Aumentado para 20px para melhor visualização */
+    border-radius: 4px !important;
     overflow: hidden !important;
-    margin-top: 8px !important;
-    margin-bottom: 12px !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    margin-top: 10px !important;
+    margin-bottom: 15px !important;
+    border: 2px solid #ffffff !important; /* Borda branca para você enxergar o local da barra */
     display: block !important;
+    position: relative !important;
 }
 
-/* ELEMENTO DA BARRA INTERNA CORRIGIDO */
+/* LINHA INTERNA QUE CRESCE - RESOLVIDO: FORÇADO DISPLAY BLOCK E ALTURA MÁXIMA */
 #barra-forca {
     display: block !important;
-    height: 100% !important;
-    width: 0%;
+    height: 20px !important; /* Casando com a altura do container */
+    width: 0%; 
     background-color: transparent;
     transition: width 0.4s ease-in-out, background-color 0.4s ease-in-out !important;
 }
@@ -242,6 +243,7 @@ button:active {
 .parametro-senhas-textos {
     font-size: 15px;
     font-family: var(--roboto-mono);
+    margin-top: 10px;
 }
 
 #texto-forca {
