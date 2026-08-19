@@ -1,5 +1,5 @@
 (() => {
-    // Seleção dos elementos do HTML (DOM)
+    // Seleção dos elementos DOM
     const campoSenha = document.getElementById('campo-senha');
     const btnCopiar = document.getElementById('btn-copiar');
     const btnGerar = document.getElementById('btn-gerar');
@@ -15,7 +15,7 @@
     const barraForca = document.getElementById('barra-forca');
     const textoForca = document.getElementById('texto-forca');
 
-    // Mapeamento e agrupamento dos tipos de caracteres disponíveis
+    // Grupos de caracteres estruturados
     const mapeamentoCaracteres = [
         { elemento: chkMaiusculas, conjunto: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' },
         { elemento: chkMinusculas, conjunto: 'abcdefghijklmnopqrstuvwxyz' },
@@ -25,18 +25,17 @@
 
     let tamanhoSenha = 12;
 
-    // Gerador de número criptográfico seguro (Substitui o Math.random)
+    // Gerador de número criptográfico seguro (Substitui o Math.random convencional)
     function obterNumeroAleatorio(maximo) {
         const arrayAleatorio = new Uint32Array(1);
         window.crypto.getRandomValues(arrayAleatorio);
         return arrayAleatorio[0] % maximo;
     }
 
-    // Função principal que gera a senha aleatória e segura
+    // Função para gerar a senha aleatória e embaralhada
     function gerarSenha() {
         const gruposAtivos = mapeamentoCaracteres.filter(item => item.elemento.checked);
         
-        // Validação caso o usuário desmarque todas as opções
         if (gruposAtivos.length === 0) {
             alert('Por favor, selecione pelo menos uma característica para a senha!');
             return;
@@ -45,62 +44,66 @@
         let senhaResultado = [];
         let poolDeCaracteres = '';
 
-        // Garante que a senha terá pelo menos um caractere de cada categoria escolhida
+        // Garante a presença de pelo menos um caractere de cada tipo marcado pelo usuário
         gruposAtivos.forEach(grupo => {
             const caractereObrigatorio = grupo.conjunto[obterNumeroAleatorio(grupo.conjunto.length)];
             senhaResultado.push(caractereObrigatorio);
             poolDeCaracteres += grupo.conjunto;
         });
 
-        // Preenche o restante do comprimento solicitado com caracteres aleatórios
+        // Preenche o restante do comprimento solicitado
         while (senhaResultado.length < tamanhoSenha) {
             const caractereOpcional = poolDeCaracteres[obterNumeroAleatorio(poolDeCaracteres.length)];
             senhaResultado.push(caractereOpcional);
         }
 
-        // Embaralha a ordem final dos caracteres (Algoritmo Fisher-Yates) para segurança máxima
+        // Embaralha o array usando Fisher-Yates
         for (let i = senhaResultado.length - 1; i > 0; i--) {
             const j = obterNumeroAleatorio(i + 1);
             [senhaResultado[i], senhaResultado[j]] = [senhaResultado[j], senhaResultado[i]];
         }
 
-        // Exibe a senha gerada no input
         campoSenha.value = senhaResultado.join('');
         atualizarMedidorDeForca();
     }
 
-    // Atualiza o tamanho da barra de nível e a cor conforme os critérios
+    // Gerenciador da barra de força dinâmica por cores diretas
     function atualizarMedidorDeForca() {
         const gruposAtivos = mapeamentoCaracteres.filter(item => item.elemento.checked).length;
         
+        // Estado sem opções marcadas ou tamanho inválido
         if (gruposAtivos === 0 || tamanhoSenha < 6) {
             barraForca.style.width = '0%';
             barraForca.style.backgroundColor = 'transparent';
-            textoForca.textContent = 'Inválido / Muito Curto';
+            textoForca.textContent = 'Escolha as opções';
             textoForca.style.color = '#ffffff';
             return;
         }
 
-        // Regra de níveis: ALTO, MÉDIO ou BAIXO
+        // Nível ALTO (Verde)
         if (tamanhoSenha >= 12 && gruposAtivos >= 3) {
             barraForca.style.width = '100%';
-            barraForca.style.backgroundColor = 'var(--cor-sucesso)';
+            barraForca.style.backgroundColor = '#00ff88'; // VERDE
             textoForca.textContent = 'Alto';
-            textoForca.style.color = 'var(--cor-sucesso)';
-        } else if (tamanhoSenha >= 8 && gruposAtivos >= 2) {
+            textoForca.style.color = '#00ff88';
+        } 
+        // Nível MÉDIO (Amarelo)
+        else if (tamanhoSenha >= 8 && gruposAtivos >= 2) {
             barraForca.style.width = '66.6%';
-            barraForca.style.backgroundColor = 'var(--cor-alerta)';
+            barraForca.style.backgroundColor = '#ffbb00'; // AMARELO
             textoForca.textContent = 'Médio';
-            textoForca.style.color = 'var(--cor-alerta)';
-        } else {
+            textoForca.style.color = '#ffbb00';
+        } 
+        // Nível BAIXO (Vermelho)
+        else {
             barraForca.style.width = '33.3%';
-            barraForca.style.backgroundColor = 'var(--cor-perigo)';
+            barraForca.style.backgroundColor = '#ff3333'; // VERMELHO
             textoForca.textContent = 'Baixo';
-            textoForca.style.color = 'var(--cor-perigo)';
+            textoForca.style.color = '#ff3333';
         }
     }
 
-    // Copia a senha gerada e aplica o efeito visual de sucesso no botão
+    // Copia a senha gerada com efeito visual de sucesso temporário
     async function copiarParaAreaDeTransferencia() {
         if (!campoSenha.value || campoSenha.value === 'Clique em Gerar') return;
 
@@ -111,7 +114,6 @@
             btnCopiar.textContent = 'Copiado!';
             btnCopiar.classList.add('copiado');
 
-            // Remove o efeito visual após 1.8 segundos
             setTimeout(() => {
                 btnCopiar.textContent = textoOriginal;
                 btnCopiar.classList.remove('copiado');
@@ -121,7 +123,7 @@
         }
     }
 
-    // Eventos para aumentar e diminuir o tamanho nos botões + e -
+    // Ouvintes de evento dos botões de controle de tamanho (+ e -)
     btnMais.addEventListener('click', () => {
         if (tamanhoSenha < 32) {
             tamanhoSenha++;
@@ -138,12 +140,11 @@
         }
     });
 
-    // Escutadores de eventos (Cliques e mudanças de estado nos Checkboxes)
+    // Vinculação dos disparadores de evento
     btnGerar.addEventListener('click', gerarSenha);
     btnCopiar.addEventListener('click', copiarParaAreaDeTransferencia);
     mapeamentoCaracteres.forEach(item => item.elemento.addEventListener('change', atualizarMedidorDeForca));
 
-    // Executa a verificação de força inicial assim que a página carrega
+    // Inicialização da interface
     atualizarMedidorDeForca();
 })();
-
